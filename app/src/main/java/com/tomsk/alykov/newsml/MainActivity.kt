@@ -2,10 +2,35 @@ package com.tomsk.alykov.newsml
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.tomsk.alykov.newsml.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
+
+    private var _binding: ActivityMainBinding? = null
+    private val mBinding get() = _binding!!
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        //setContentView(R.layout.activity_main)
+        setContentView(R.layout.fragment_splash)
+        Handler(Looper.myLooper()!!).postDelayed( {
+            setContentView(mBinding.root)
+            bottomNV.setupWithNavController(
+                navController = nav_host_fragment.findNavController()
+            )
+        }, 10000)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
